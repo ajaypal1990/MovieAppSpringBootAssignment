@@ -63,7 +63,7 @@ public class MovieServiceImpl implements MovieService {
 		MovieEntity movieEntity = repository.findByMovieId(id);
 
 		if (movieEntity == null)
-			throw new MovieServiceException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage());
+			throw new NullPointerException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage());
 
 		BeanUtils.copyProperties(movieEntity, returnValue);
 
@@ -72,6 +72,9 @@ public class MovieServiceImpl implements MovieService {
 
 	@Override
 	public MovieDto updateMovie(String movieId, MovieDetailRequestModel moviedetails) {
+		if(moviedetails.getStarRating()>5 || moviedetails.getStarRating()<1) {
+			throw new MovieServiceException("Invalid Rating Value,Rate Between 1-5 ");
+		}
 		MovieDto returnValue = new MovieDto();
 		MovieEntity movieEntity = repository.findByMovieId(movieId);
 

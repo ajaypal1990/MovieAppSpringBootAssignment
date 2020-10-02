@@ -27,6 +27,10 @@ import com.springboot.assingment.MovieApplication.ui.responce.RequestOperationNa
 import com.springboot.assingment.MovieApplication.ui.responce.RequestOperationStatus;
 import com.springboot.assingment.MovieApplication.ui.shared.dto.MovieDto;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @RestController
 @RequestMapping("movies")
 public class MovieController {
@@ -36,8 +40,15 @@ public class MovieController {
 
 	ModelMapper modelMapper = new ModelMapper();
 
-	@PostMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, consumes = {
-			MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+	@PostMapping
+	@ApiOperation(value = "Create a new Movie", response = MovieRest.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully created a new Movie"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
+            @ApiResponse(code = 500, message = "Application failed to process the request")
+    })
 	public MovieRest createMovie(@RequestBody MovieDetailRequestModel moviedetails) {
 		MovieRest returnValue = new MovieRest();
 
@@ -49,7 +60,16 @@ public class MovieController {
 		return returnValue;
 	}
 
-	@GetMapping(path = "/{id}", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+	@GetMapping(path = "/{id}")
+	@ApiOperation(value = "Retrieve specific Movie with the supplied movie id", response = MovieRest.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully retrieved the Movie with the movie id"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
+            @ApiResponse(code = 500, message = "Application failed to process the request")
+    }
+    )
 	public MovieRest getMovie(@PathVariable String id) {
 		MovieRest returnValue = new MovieRest();
 
@@ -63,9 +83,16 @@ public class MovieController {
 		return returnValue;
 	}
 
-	@PutMapping(path = "/{id}", produces = { MediaType.APPLICATION_JSON_VALUE,
-			MediaType.APPLICATION_XML_VALUE }, consumes = { MediaType.APPLICATION_JSON_VALUE,
-					MediaType.APPLICATION_XML_VALUE })
+	@PutMapping(path = "/{id}")
+	@ApiOperation(value = "Update a Movie information", response = MovieRest.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully updated Movie information"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
+            @ApiResponse(code = 500, message = "Application failed to process the request")
+    }
+    )
 	public MovieRest updateMovie(@PathVariable String id, @RequestBody MovieDetailRequestModel moviedetails) {
 		MovieRest returnValue = new MovieRest();
 
@@ -80,7 +107,16 @@ public class MovieController {
 		return returnValue;
 	}
 
-	@DeleteMapping(path = "/{id}", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+	@DeleteMapping(path = "/{id}")
+	 @ApiOperation(value = "Deletes specific Movie with the supplied movie id")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully deletes the specific Movie"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
+            @ApiResponse(code = 500, message = "Application failed to process the request")
+    }
+    )
 	public OperationStatusModel deleteUser(@PathVariable String id) {
 		OperationStatusModel returnValue = new OperationStatusModel();
 		returnValue.setOperationName(RequestOperationName.DELETE.name());
@@ -91,7 +127,16 @@ public class MovieController {
 		return returnValue;
 	}
 	
-	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+	@GetMapping
+    @ApiOperation(value = "View all Movies", response = MovieRest.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully retrieved all Movies"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found"),
+            @ApiResponse(code = 500, message = "Application failed to process the request")
+    }
+    )
 	public List<MovieRest> getMovies(@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "limit", defaultValue = "5") int limit) {
 

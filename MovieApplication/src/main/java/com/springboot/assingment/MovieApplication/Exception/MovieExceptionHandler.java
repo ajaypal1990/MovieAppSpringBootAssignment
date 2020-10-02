@@ -29,4 +29,11 @@ public class MovieExceptionHandler {
 		return new ResponseEntity<>(errorMessage, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
+	@ExceptionHandler(value = {NullPointerException.class})
+	public ResponseEntity<Object> handleNullException(MovieServiceException ex, WebRequest request)
+	{
+		ErrorMessage errorMessage = new ErrorMessage(new Date(),  ex.getMessage());
+		return new ResponseEntity<>(errorMessage, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
 }
