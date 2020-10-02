@@ -1,4 +1,4 @@
-package com.springboot.assingment.MovieApplication;
+package com.springboot.assingment.MovieApplication.ui.serviceImpl;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 

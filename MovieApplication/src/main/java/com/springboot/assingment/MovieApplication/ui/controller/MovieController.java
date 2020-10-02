@@ -117,7 +117,7 @@ public class MovieController {
             @ApiResponse(code = 500, message = "Application failed to process the request")
     }
     )
-	public OperationStatusModel deleteUser(@PathVariable String id) {
+	public OperationStatusModel deleteMovie(@PathVariable String id) {
 		OperationStatusModel returnValue = new OperationStatusModel();
 		returnValue.setOperationName(RequestOperationName.DELETE.name());
 
