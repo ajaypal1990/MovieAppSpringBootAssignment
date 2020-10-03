@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -39,6 +41,8 @@ public class MovieController {
 	MovieService movieService;
 
 	ModelMapper modelMapper = new ModelMapper();
+	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@PostMapping
 	@ApiOperation(value = "Create a new Movie", response = MovieRest.class)
@@ -50,13 +54,14 @@ public class MovieController {
             @ApiResponse(code = 500, message = "Application failed to process the request")
     })
 	public MovieRest createMovie(@RequestBody MovieDetailRequestModel moviedetails) {
+		logger.debug("Inside the createMovie method of moviecontroller");
 		MovieRest returnValue = new MovieRest();
 
 		MovieDto movieDto = modelMapper.map(moviedetails, MovieDto.class);
 
 		MovieDto createdMovie = movieService.createMovie(movieDto);
 		returnValue = modelMapper.map(createdMovie, MovieRest.class);
-
+		logger.debug("Returning the MovieRest{}",returnValue);
 		return returnValue;
 	}
 
@@ -72,14 +77,14 @@ public class MovieController {
     )
 	public MovieRest getMovie(@PathVariable String id) {
 		MovieRest returnValue = new MovieRest();
-
+		logger.debug("Inside the getmovie method of moviecontroller");
 		MovieDto getMovie = movieService.getMovieByMovieId(id);
 		if (getMovie == null)
 			throw new MovieServiceException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
 
 		// modelMapper.map(getUser, MovieRest.class);
 		BeanUtils.copyProperties(getMovie, returnValue);
-
+		logger.debug("Returning the getMovie method MovieRest{}",returnValue);
 		return returnValue;
 	}
 
@@ -95,15 +100,15 @@ public class MovieController {
     )
 	public MovieRest updateMovie(@PathVariable String id, @RequestBody MovieDetailRequestModel moviedetails) {
 		MovieRest returnValue = new MovieRest();
-
+		logger.debug("Inside the updateMovie method of moviecontroller");
 		if (moviedetails.getTitle() == null || moviedetails.getTitle().isEmpty())
 			throw new MovieServiceException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
 		modelMapper.map(moviedetails, MovieDto.class);
 
 		MovieDto updatedMovie = movieService.updateMovie(id, moviedetails);
-
+	
 		BeanUtils.copyProperties(updatedMovie, returnValue);
-
+		logger.debug("Returning the updatedMovie method MovieRest{}",returnValue);
 		return returnValue;
 	}
 

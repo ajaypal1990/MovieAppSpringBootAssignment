@@ -118,8 +118,6 @@ class MovieApplicationTests {
 	@Test
 	void DeleteMovieTest() {
 		MovieDto movie = updateMovie();
-		// Mockito.when(repository.findByTitle(Mockito.anyString())).thenThrow(new
-		// MovieServiceException("Record with provided id is not found"));
 		Mockito.when(util.generateMovieId(Mockito.anyInt())).thenReturn("dsfh");
 		Mockito.when(repository.save(Mockito.anyObject())).thenReturn(movieEntity);
 		Mockito.when(repository.findByMovieId(Mockito.anyString()))

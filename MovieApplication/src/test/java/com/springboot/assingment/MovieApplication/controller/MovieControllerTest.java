@@ -9,8 +9,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.BeanUtils;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import com.springboot.assingment.MovieApplication.Exception.MovieServiceException;
 import com.springboot.assingment.MovieApplication.io.entity.MovieEntity;
@@ -20,7 +18,6 @@ import com.springboot.assingment.MovieApplication.ui.controller.MovieController;
 import com.springboot.assingment.MovieApplication.ui.request.MovieDetailRequestModel;
 import com.springboot.assingment.MovieApplication.ui.responce.ErrorMessages;
 import com.springboot.assingment.MovieApplication.ui.responce.MovieRest;
-import com.springboot.assingment.MovieApplication.ui.responce.OperationStatusModel;
 import com.springboot.assingment.MovieApplication.ui.shared.Utils;
 import com.springboot.assingment.MovieApplication.ui.shared.dto.MovieDto;
 

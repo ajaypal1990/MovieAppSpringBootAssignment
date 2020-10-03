@@ -6,6 +6,8 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,7 +27,7 @@ import com.springboot.assingment.MovieApplication.ui.shared.dto.MovieDto;
 @Service
 @Transactional
 public class MovieServiceImpl implements MovieService {
-
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private MovieRespository repository;
 	
@@ -36,12 +38,14 @@ public class MovieServiceImpl implements MovieService {
 	public MovieDto createMovie(MovieDto movieDto) {
 
 		if(movieDto.getStarRating()>5 || movieDto.getStarRating()<1) {
+			logger.info("Inside the create Movie Method of Service Layer, seems rating is not valid");
 			throw new MovieServiceException("Invalid Rating Value,Rate Between 1-5 ");
 		}
 		
-		if (repository.findByTitle(movieDto.getTitle()) != null)
+		if (repository.findByTitle(movieDto.getTitle()) != null) {
+			logger.info("Record already exists");
 			throw new MovieServiceException("Record already exists");
-		  
+		}
 	
 		//BeanUtils.copyProperties(user, userEntity);
 		ModelMapper modelMapper = new ModelMapper();
